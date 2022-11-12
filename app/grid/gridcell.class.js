@@ -10,19 +10,19 @@ class GridCell {
     }
 
     // this gets elements from the DOM
-    get gridCellElement() {
-        return document.querySelector(`.gridCell[position='${this.position}`); // uses this.position to grab 'this' element
-    }
+    // get gridCellElement() {
+    //     return document.querySelector(`.gridCell[position='${this.position}`); // uses this.position to grab 'this' element
+    // }
 
     render() {
-        this.#renderElement();
-        this.#renderGridCell();
-        this.#renderHTML();
-        this.#renderOutInCells();
+        this.#renderHTMLElement();
+        this.#renderHTMLStyling();
+        this.#renderAttributes();
+        this.#renderGridCellType();
         this.#renderEvents();
     }
 
-    #renderElement() {
+    #renderHTMLElement() {
         const {
             grid: { gridElement },
         } = this;
@@ -30,18 +30,11 @@ class GridCell {
         gridCellElement.classList.add('gridCell');
         gridCellElement.setAttribute('position', this.position);
         gridElement.append(gridCellElement);
+
+        this.gridCellElement = gridCellElement; // removes need for getter and no longer need to pull browser to get HTML element.
     }
 
-    #renderGridCell() {
-        const {
-            grid: { numRows, numCols },
-        } = this;
-        this.isBlocked = false; // add isBlocked value to the gridCell object
-        this.isOutCell = this.position === `0-0`;
-        this.isInCell = this.position === `${numRows - 1}-${numCols - 1}`;
-    }
-
-    #renderHTML() {
+    #renderHTMLStyling() {
         const {
             gridCellElement,
             grid: {
@@ -58,15 +51,21 @@ class GridCell {
         gridCellElement.setAttribute('draggable', true); // makes dragging more smooth and shows dragging
     }
 
-    #renderOutInCells() {
+    #renderAttributes() {
+        // add values to this gridCell object
+        const {
+            grid: { numRows, numCols },
+        } = this;
+        this.isBlocked = false;
+        this.isOutCell = this.position === `0-0`;
+        this.isInCell = this.position === `${numRows - 1}-${numCols - 1}`;
+    }
+
+    #renderGridCellType() {
         const { gridCellElement } = this;
         // if GridCell object has true value for OutCell, add css.
         gridCellElement.classList[this.isOutCell ? 'add' : 'remove']('out-cell');
         gridCellElement.classList[this.isInCell ? 'add' : 'remove']('in-cell');
-    }
-
-    renderBlockedCells() {
-        const { gridCellElement } = this;
         gridCellElement.classList[this.isBlocked ? 'add' : 'remove']('blocked');
     }
 
@@ -81,7 +80,7 @@ class GridCell {
         const { gridCellElement } = this; // (getter) Get current Element from DOM and attach listener. getter for Every function
         gridCellElement.addEventListener('click', () => {
             this.isBlocked = !this.isBlocked;
-            this.renderBlockedCells();
+            this.#renderGridCellType();
         });
     }
 
@@ -120,7 +119,7 @@ class GridCell {
             this.resetCell();
             this.isOutCell = grid.draggedGridCell.isOutCell;
             this.isInCell = grid.draggedGridCell.isInCell;
-            this.#renderOutInCells();
+            this.#renderGridCellType();
             grid.draggedGridCell.resetCell();
             grid.draw();
         });
@@ -142,8 +141,7 @@ class GridCell {
         this.isInCell = false;
         this.isOutCell = false;
         this.isBlocked = false;
-        this.#renderOutInCells();
-        this.renderBlockedCells();
+        this.#renderGridCellType();
     }
 }
 
