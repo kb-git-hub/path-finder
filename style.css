@@ -1,0 +1,28 @@
+*,
+*::before,
+*::after {
+    /* box-sizing: border-box; */
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: black;
+    overflow: hidden;
+}
+
+.gridCell {
+    float: left;
+}
+
+.gridCell.blocked {
+    background: darkgray;
+}
+
+.gridCell.out-cell {
+    background-color: lime;
+}
+
+.gridCell.in-cell {
+    background-color: orange;
+}
