@@ -22,8 +22,6 @@ class GridPathFinder {
                 const currentCell = gridCells[position];
 
                 helperRow.push(currentCell.isBlocked ? 1 : 0);
-                // else if (currentCell.isOutCell) helperRow.push(2);
-                // else if (currentCell.isInCell) helperRow.push(3);
             }
             helperGrid.push(helperRow);
         }
@@ -40,6 +38,18 @@ class GridPathFinder {
         const AStarFinderConfig = {
             weight: this.grid.settings.verticesWeight,
         };
+        const aStarFinder = new AStarFinder(AStarFinderConfig);
+
+        const helperPath = aStarFinder.findPath(...outColRow, ...inColRow, pathFindingGrid);
+        return helperPath;
+    }
+
+    generateColRow(position) {
+        const coordinates = position
+            .split('-')
+            .map((item) => +item)
+            .reverse(); // split cell coordinates into an array
+        return coordinates;
     }
 }
 
