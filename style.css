@@ -26,3 +26,8 @@ body {
 .gridCell.in-cell {
     background-color: orange;
 }
+
+svg {
+    position: fixed;
+    z-index: -1;
+}

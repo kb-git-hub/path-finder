@@ -17,7 +17,12 @@ class GridDraw {
     }
 
     draw() {
-        const { outCell, inCell, grid } = this;
+        const {
+            outCell,
+            inCell,
+            grid,
+            grid: { svgElement },
+        } = this;
         const gridPathFinder = new GridPathFinder({ grid, outCell, inCell });
 
         this.helperPath = gridPathFinder.generateHelperPath();

@@ -13,6 +13,11 @@ class Grid {
         return document.querySelector(this.settings.gridSelector);
     }
 
+    get svgElement() {
+        // Gets #grid div from DOM
+        return document.querySelector(this.settings.gridSVGSelector);
+    }
+
     build = () => {
         this.#buildGridLayout();
         this.#buildGridCell();
@@ -23,7 +28,7 @@ class Grid {
         // Destructure objects into variables from grid.config
         const { settings, gridElement } = this; // get gridElement #grid from DOM
         const { cellSize, borderSize, borderColor } = settings;
-        const { innerWidth, innerHeight } = { innerWidth: 300, innerHeight: 300 }; // Change this back to window
+        const { innerWidth, innerHeight } = window; // Change this back to window
 
         const fullCellSize = cellSize + borderSize * 2;
 
@@ -58,7 +63,17 @@ class Grid {
         }
     }
 
-    #buildGridSvg() {}
+    #buildGridSvg() {
+        const { svgElement, gridWidth, gridHeight, gridMarginX, gridMarginY } = this;
+        Object.assign(svgElement.style, {
+            width: `${gridWidth}px`,
+            height: `${gridHeight}px`,
+            left: `${gridMarginX}px`,
+            top: `${gridMarginY}px`,
+        });
+
+        svgElement.setAttribute('viewbox', `0 0 ${gridWidth} ${gridHeight}`);
+    }
 
     draw = () => {
         const { gridCells } = this;
