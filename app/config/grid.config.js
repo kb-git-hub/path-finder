@@ -4,5 +4,6 @@ export default {
         cellSize: 30,
         borderSize: 1,
         borderColor: 'gray',
+        verticesWeight: 1,
     },
 };

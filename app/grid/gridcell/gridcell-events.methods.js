@@ -6,10 +6,11 @@ export default function () {
 
 function renderClickEvent() {
     if (this.isOutCell || this.isInCell) return;
-    const { gridCellElement } = this; // (getter) Get current Element from DOM and attach listener. getter for Every function
+    const { grid, gridCellElement } = this; // (getter) Get current Element from DOM and attach listener. getter for Every function
     gridCellElement.addEventListener('click', () => {
         this.isBlocked = !this.isBlocked;
         this.renderGridCellType();
+        grid.draw();
     });
 }
 
@@ -50,7 +51,7 @@ function renderDragDropEvents() {
         this.isInCell = grid.draggedGridCell.isInCell;
         this.renderGridCellType();
         grid.draggedGridCell.resetCell();
-        // grid.draw();
+        grid.draw();
     });
 }
 

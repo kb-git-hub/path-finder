@@ -1,6 +1,7 @@
 /* eslint-disable import/extensions */
 import generateQueryConstructor from '../utils/object.utils.js';
 import GridCell from './gridcell.class.js';
+import GridDraw from './GridDraw.class.js';
 
 class Grid {
     constructor() {
@@ -59,7 +60,11 @@ class Grid {
 
     #buildGridSvg() {}
 
-    draw = () => {};
+    draw = () => {
+        const { gridCells } = this;
+        const gridDraw = new GridDraw({ grid: this });
+        gridDraw.draw();
+    };
 }
 
 export default Grid;
