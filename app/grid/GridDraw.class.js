@@ -28,6 +28,8 @@ class GridDraw {
             grid,
             grid: { svgElement },
         } = this;
+
+        console.log(outCell, inCell);
         const gridPathFinder = new GridPathFinder({ grid, outCell, inCell });
 
         this.helperPath = gridPathFinder.generateHelperPath();
@@ -48,16 +50,24 @@ class GridDraw {
         const [rowIn, colIn] = inCell.position.split('-').map((item) => +item);
 
         function generateM(startPos) {
-            return startPos * cellSize - cellSize * 0.5 + startPos * borderSize * 2;
+            return startPos * cellSize - cellSize / 2 + startPos * borderSize * 2;
         }
 
-        const m1 = generateM(colOut);
-        const m2 = generateM(rowOut);
+        const m1 = generateM(colOut + 1);
+        const m2 = generateM(rowOut + 1);
 
-        const pathD = `M${m1} ${m2}`;
+        let pathD = `M${m1} ${m2}`;
         const distance = cellSize + borderSize * 2;
-        console.log(pathD, distance);
 
+        for (let i = 0; i < this.helperPath.length - 1; i += 1) {
+            const [col, row] = this.helperPath[i];
+            const [colNext, rowNext] = this.helperPath[i + 1];
+
+            if (colNext < col) pathD += `h-${distance}`;
+            else if (colNext > col) pathD += `h${distance}`;
+            else if (rowNext < row) pathD += `v-${distance}`;
+            else if (rowNext > row) pathD += `v${distance}`;
+        }
         return pathD;
     }
 }
