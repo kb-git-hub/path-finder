@@ -28,8 +28,6 @@ class GridDraw {
             grid,
             grid: { svgElement },
         } = this;
-
-        console.log(outCell, inCell);
         const gridPathFinder = new GridPathFinder({ grid, outCell, inCell });
 
         this.helperPath = gridPathFinder.generateHelperPath();
